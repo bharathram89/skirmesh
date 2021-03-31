@@ -10,11 +10,24 @@ export class HeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    window.location.href.includes('/auth/sign-up')? document.getElementById("nav_register").classList.add('active'):null;
+    window.location.href.includes('/non-secure/field-info')? document.getElementById("nav_fieldInfo").classList.add('active'):null;
+    window.location.href.includes('/non-secure/player-info')? document.getElementById("nav_playerInfo").classList.add('active'):null;
+    window.location.href.includes('/non-secure/feature-list')? document.getElementById("nav_featureList").classList.add('active'):null;
+    window.location.href.includes('/non-secure/home')? document.getElementById("nav_home").classList.add('active'):null;
+    // window.location.href.includes('home')? $("#nav_home").addClass('active'):null;
+    // window.location.href.includes('newGame')? $("#nav_newGame").addClass('active'):null;
+    // window.location.href.includes('pastGames')? $("#nav_pastGames").addClass('active'):null;
+
   } 
   signOut(){
 
   }
 
+  openMenu(){
+    let menu = document.getElementById("navdrop")
+    menu.classList.toggle('collapse')
+  }
 
 // $("[data-trigger]").on("click", function (e) {
 //   e.preventDefault();
