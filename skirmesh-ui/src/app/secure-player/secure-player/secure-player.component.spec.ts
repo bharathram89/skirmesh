@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FieldManagementComponent } from './field-management.component';
+import { SecurePlayerComponent } from './secure-player.component';
 
-describe('FieldManagementComponent', () => {
-  let component: FieldManagementComponent;
-  let fixture: ComponentFixture<FieldManagementComponent>;
+describe('SecurePlayerComponent', () => {
+  let component: SecurePlayerComponent;
+  let fixture: ComponentFixture<SecurePlayerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FieldManagementComponent ]
+      declarations: [ SecurePlayerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FieldManagementComponent);
+    fixture = TestBed.createComponent(SecurePlayerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

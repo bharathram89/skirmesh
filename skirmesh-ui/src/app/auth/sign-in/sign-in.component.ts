@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthGuardGuard } from 'src/app/helpers/auth-guard.guard';
 import { AuthService } from 'src/service/auth.service';
 import { TokenStorageService } from 'src/service/token-storage.service';
+import { UserServiceService } from 'src/service/user-service.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +18,9 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private authSvc: AuthService,
-    private tokenStorage: TokenStorageService) {
+    private userSvc: UserServiceService,
+    private tokenStorage: TokenStorageService,
+    private router: Router) {
     
    }
 
@@ -26,7 +31,8 @@ export class SignInComponent implements OnInit {
         Validators.required
       ]),
       "password": new FormControl(this.fields.password, [
-        Validators.required
+        Validators.required,
+        Validators.minLength(5)
       ]),
       "fieldName": new FormControl(this.fields.fieldName, [
         Validators.required
@@ -61,7 +67,9 @@ export class SignInComponent implements OnInit {
     fieldSignUp.classList.remove("active");
     playerSignUp.classList.add("active");
   }
-
+  get fieldName() { return this.login.get('fieldName'); }
+  get password() { return this.login.get('password'); }
+  get callSign() { return this.login.get('callSign'); }
   onSubmit(){
     let type = document.getElementById('fieldSignIn').classList.contains('active') ? 'field' : 'player';
     let data = {
@@ -70,13 +78,28 @@ export class SignInComponent implements OnInit {
     }
     this.authSvc.userLogin(data).subscribe(
       respData=>{
-        console.log("data",respData)
-
+        console.log("login response",respData)
+        // this.tokenStorage.
         // window.sessionStorage.setItem("token",JSON.stringify(data))
-        this.tokenStorage.saveToken(respData['token'])
+
+        this.authSvc.getUser(respData['token']).subscribe(
+          userData=>{
+            console.log(userData);
+            this.tokenStorage.saveToken(respData['token'])
+            this.userSvc.setSignIn(true);
+            this.userSvc.setUserData(userData);
+            this.router.navigate(['/secure-player']);
+          },
+          err=>{
+            document.getElementById('userLoginFaileddMessage').classList.toggle('d-none')
+            //show error message
+          }
+
+        )
         //store session and route user
       },
       err=>{
+        document.getElementById('userLoginFaileddMessage').classList.toggle('d-none')
 //show error message
       }
     )

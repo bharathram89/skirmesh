@@ -5,19 +5,14 @@ import { AuthGuardGuard } from './helpers/auth-guard.guard';
 
 const routes: Routes = [
   { 
-    path: 'gameManagement', 
-    loadChildren: () => import('./game-management/game-management.module').then(m => m.GameManagementModule),  
+    path: 'secure-player', 
+    loadChildren: () => import('./secure-player/secure-player.module').then(m => m.SecurePlayerModule),  
     canActivate: [AuthGuardGuard] 
   },
   { 
     path: 'auth', 
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) 
-  }, 
-  { 
-    path: 'fieldManagement', 
-    loadChildren: () => import('./field-management/field-management.module').then(m => m.FieldManagementModule),
-    canActivate: [AuthGuardGuard] 
-  }, 
+  },  
   { 
     path: 'non-secure', 
     loadChildren: () => import('./non-secure/non-secure.module').then(m => m.NonSecureModule) 

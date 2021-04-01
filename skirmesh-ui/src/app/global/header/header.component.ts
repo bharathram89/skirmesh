@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthGuardGuard } from 'src/app/helpers/auth-guard.guard';
+import { TokenStorageService } from 'src/service/token-storage.service';
+import { UserServiceService } from 'src/service/user-service.service';
 
 @Component({
   selector: 'app-header',
@@ -7,23 +10,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   isSideNavOpen: boolean = false;
-  constructor() { }
+  isSecure:boolean = false;
+  isPlayer = false;
+  isField=false;
+  userSvc:UserServiceService;
+  tokenSvc:TokenStorageService;
+  constructor(userService:UserServiceService,tokenService:TokenStorageService) {
+    this.userSvc = userService;
+    this.tokenSvc = tokenService;
+   }
 
   ngOnInit(): void {
-    window.location.href.includes('/auth/sign-up')? document.getElementById("nav_register").classList.add('active'):null;
-    window.location.href.includes('/non-secure/field-info')? document.getElementById("nav_fieldInfo").classList.add('active'):null;
-    window.location.href.includes('/non-secure/player-info')? document.getElementById("nav_playerInfo").classList.add('active'):null;
-    window.location.href.includes('/non-secure/feature-list')? document.getElementById("nav_featureList").classList.add('active'):null;
-    window.location.href.includes('/non-secure/home')? document.getElementById("nav_home").classList.add('active'):null;
+    // window.location.href.includes('/auth/sign-up')? document.getElementById("nav_register").classList.add('active'):null;
+    // window.location.href.includes('/non-secure/field-info')? document.getElementById("nav_fieldInfo").classList.add('active'):null;
+    // window.location.href.includes('/non-secure/player-info')? document.getElementById("nav_playerInfo").classList.add('active'):null;
+    // window.location.href.includes('/non-secure/feature-list')? document.getElementById("nav_featureList").classList.add('active'):null;
+    // window.location.href.includes('/non-secure/home')? document.getElementById("nav_home").classList.add('active'):null;
     // window.location.href.includes('home')? $("#nav_home").addClass('active'):null;
     // window.location.href.includes('newGame')? $("#nav_newGame").addClass('active'):null;
     // window.location.href.includes('pastGames')? $("#nav_pastGames").addClass('active'):null;
+    this.userSvc.isSignedIn().subscribe(isSignedIn=>{
+      this.isSecure = isSignedIn;
+    })
 
+    this.userSvc.getUserTye().subscribe(userType=>{
+      if(userType=='field'){
+        this.isField=true;
+      }else if(userType =='player'){
+        this.isPlayer=true;
+      }
+    })
   } 
   signOut(){
-
+    this.tokenSvc.signOut()
   }
-
+  openInfoMenu(){}
   openMenu(){
     let menu = document.getElementById("navdrop")
     menu.classList.toggle('collapse')
