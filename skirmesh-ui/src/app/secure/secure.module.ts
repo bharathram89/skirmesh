@@ -5,15 +5,22 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SecureComponent } from './secure/secure.component';
 import { GlobalModule } from '../global/global.module';
 import { SecureRoutingModule } from './secure-routing.module';
+import { StartGameComponent } from './start-game/start-game.component';
+import { ManageGameComponent } from './manage-game/manage-game.component';
+import { FindGameComponent } from './find-game/find-game.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [ProfileComponent, DashboardComponent, SecureComponent],
+  declarations: [ProfileComponent, DashboardComponent, SecureComponent, StartGameComponent, ManageGameComponent, FindGameComponent],
   imports: [
     CommonModule,
     SecureRoutingModule,
-    GlobalModule
+    GlobalModule,
+    FormsModule,
+    ReactiveFormsModule
+
   ]
 })
 export class SecureModule { }
