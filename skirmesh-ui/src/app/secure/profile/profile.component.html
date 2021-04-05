@@ -54,28 +54,28 @@
                 </div>
               </div>
               <div  *ngIf="isField" class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Field Location</label>
+                <label class="col-sm-3 col-xs-12 control-label">Field Name</label>
                 <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input formControlName="bio" type="text" class="form-control"  placeholder="{{currentVals.bio}}"> 
+                  <input formControlName="fieldName" type="text" class="form-control"  placeholder="{{currentVals.fieldName}}"> 
                 </div>
               </div>
               <div  *ngIf="isField" class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Bio</label>
+                <label class="col-sm-3 col-xs-12 control-label">Field Description</label>
                 <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input formControlName="bio" type="text" class="form-control"  placeholder="{{currentVals.bio}}"> 
+                  <input formControlName="profile" type="text" class="form-control"  placeholder="{{currentVals.profile}}"> 
                 </div>
               </div>
             </fieldset>
             <fieldset class="fieldset">
               <h3 class="fieldset-title">Contact Info</h3>
               <div class="form-group">
-                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
+                <label class="col-sm-3 col-xs-12 control-label">Email</label>
                 <div class="col-md-10 col-sm-9 col-xs-12">
                   <input formControlName="email" type="email" class="form-control"  placeholder="{{currentVals.email}}">
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Phone</label>
+                <label class="col-sm-3 col-xs-12 control-label">Phone</label>
                 <div class="col-md-10 col-sm-9 col-xs-12">
                   <input formControlName="phone" type="text" class="form-control"  placeholder="{{currentVals.phone}}">
                 </div>
@@ -88,6 +88,15 @@
               </div>
             </div>
           </form>
+          <div class="row"> 
+            <div id="userCreatedMessage" class="alert alert-primary d-none center-cust">
+               Your profile has been updated!<br>
+            </div>
+            <div id="userCreatFaileddMessage" class="alert alert-danger d-none center-cust">
+               We are sorry we were not able to update your profile at this time <br>
+               Please try again or <a [routerLink]="['/non-secure/contact-us']" >contact us from our contact us page</a>
+            </div> 
+           </div>	
           <div id="socalMedia">
             <div class="row"> 
               <div class="col"> 

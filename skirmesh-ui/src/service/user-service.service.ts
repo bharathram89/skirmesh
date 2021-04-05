@@ -13,6 +13,7 @@ export class UserServiceService {
   tokenSvc:TokenStorageService;
   isField:boolean=false;
   isPlayer:boolean=false;
+  token;
   constructor(
     tokenService: TokenStorageService
   ) {
@@ -27,6 +28,7 @@ export class UserServiceService {
     }else if (userData.user.type =='player'){
       this.isPlayer = true;
     }
+    this.token= userData.token;
     this.userType.next(userData.user.type);
     this.userData.next(userData.user)
     this.tokenSvc.saveToken(userData.token)
@@ -42,6 +44,9 @@ export class UserServiceService {
   }
   getUserData(){
     return this.userData;
+  }
+  getToken(){
+    return this.token;
   }
 
 }

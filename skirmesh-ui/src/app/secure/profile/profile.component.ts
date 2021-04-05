@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { subscribeOn } from 'rxjs/operators';
+import { AuthService } from 'src/service/auth.service';
 import { UserServiceService } from 'src/service/user-service.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class ProfileComponent implements OnInit {
   settingsSection: HTMLElement;
 
   profileForm: FormGroup;
-  fields = { fname: '', lname: '', email: '', clanTag: '', phone: '', bio: '' }
+  fields = { fname: '', lname: '', email: '', clanTag: '', phone: '', bio: '', profile: '',fieldName:'',callSign:'' }
 
   isField: boolean;
   isPlayer: boolean;
@@ -29,15 +30,20 @@ export class ProfileComponent implements OnInit {
     clanTag: "",
     email: "",
     phone: "",
-    bio: ''
+    bio: '',
+    profile: '',
+    fieldName:'',
+    callSign:''
+
   }
 
 
   userSvc: UserServiceService;
+  authSvc: AuthService;
 
 
-
-  constructor(private userService: UserServiceService) {
+  constructor(private userService: UserServiceService, private authService: AuthService) {
+    this.authSvc = authService;
     this.userSvc = userService;
   }
 
@@ -70,18 +76,30 @@ export class ProfileComponent implements OnInit {
       "phone": new FormControl(this.fields.phone, [
       ]),
       "bio": new FormControl(this.fields.bio, [
+      ]),
+      "profile": new FormControl(this.fields.profile, [
+      ]),
+      "fieldName": new FormControl(this.fields.fieldName, [
+      ]),
+      "callSign": new FormControl(this.fields.callSign, [
       ])
     })
 
 
     this.userSvc.getUserData().subscribe(
       userData => {
+        if (this.isField) {
+          this.currentVals.profile = userData.fieldProfiles.profile ? userData.fieldProfiles.profile : 'Describe your field';
+          this.currentVals.fieldName = userData.callSign ? userData.callSign : 'Your Field Name';
+        } else if (this.isPlayer) {
+          this.currentVals.bio = userData.playerProfile.outfit ? userData.playerProfile.outfit : 'Tell us about you loadout!';
+          this.currentVals.clanTag = userData.playerProfile.clanTag ? userData.playerProfile.clanTag : 'Declare your Clan!';
+          this.currentVals.callSign = userData.playerProfile.callSign ? userData.playerProfile.callSign : 'Whats ur call sign!';
+        }
         this.currentVals.fName = userData.firstName ? userData.firstName : 'Please Enter First Name';
         this.currentVals.lName = userData.lastName ? userData.lastName : 'Please Enter Last Name';
-        this.currentVals.clanTag = userData.clanTag ? userData.playerProfile.clanTag : 'Declare your Clan!';
         this.currentVals.email = userData.email ? userData.email : 'Please Enter Email';
         this.currentVals.phone = userData.phoneNumber ? userData.phoneNumber : 'Please Enter Phone Number';
-        this.currentVals.bio = userData.phoneNumber ? userData.playerProfile.outfit : 'Tell us about you loadout!';
       }
     )
   }
@@ -112,8 +130,35 @@ export class ProfileComponent implements OnInit {
     this.settingsSection.style.display = 'none';
   }
 
-  onSubmit(){
-    
+  onSubmit() {
+
+    let data = {}
+    this.profileForm.value.fname ? data['firstName'] = this.profileForm.value.fname : null;
+    this.profileForm.value.lname ? data['lastName'] = this.profileForm.value.lname : null;
+    this.profileForm.value.email ? data['email'] = this.profileForm.value.email : null;
+    this.profileForm.value.phone ? data['phoneNumber'] = this.profileForm.value.phone : null;
+    if (this.isField) {
+      this.profileForm.value.fieldName ? data['callSign'] = this.profileForm.value.fieldName:null;
+      this.profileForm.value.profile ? data['profile'] = this.profileForm.value.profile : null;
+    } else if (this.isPlayer) {
+      this.profileForm.value.callSign ? data['callSign'] = this.profileForm.value.callSign:null;
+      this.profileForm.value.bio ? data['outfit'] = this.profileForm.value.bio : null;
+      this.profileForm.value.clanTag ? data['clanTag'] = this.profileForm.value.clanTag : null;
+
+    }
+    this.authSvc.saveProfile(this.userSvc.getToken(), data).subscribe(
+      resp => {
+        this.profileForm.reset();
+        document.getElementById('userCreatedMessage').classList.remove('d-none')
+        console.log(resp, "resp")
+      },
+      err=>{
+        this.profileForm.reset();
+        document.getElementById('userCreatFaileddMessage').classList.remove('d-none')
+        console.log(err, "err in update profile")
+      }
+    )
+    //saveProfile
   }
 
 
