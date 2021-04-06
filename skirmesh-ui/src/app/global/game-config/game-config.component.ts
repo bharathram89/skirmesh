@@ -25,7 +25,12 @@ export class GameConfigComponent implements OnInit {
     // this.savedGames.push({name:"Salina",numDevice:13,nodeTypes:"Bomb/Medic/Capture"})
   } 
   
-
+  onDeleteMode(gameMode){
+    console.log(gameMode,"options")
+    this.gameModes = this.gameModes.filter(function( obj ) {
+      return obj.id !== gameMode.id;
+    });
+  }
   onEditMode(gameMode) {
     this.tabsComponent.openTab(
       `Editing ${gameMode.name}`,

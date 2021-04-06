@@ -5,6 +5,7 @@
       <th>Node Modes Enabled</th>
       <th>Map</th>
       <th></th>
+      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let p of gamemodes">
@@ -13,6 +14,7 @@
         <td>{{ p.nodeModes }}</td>
         <td>{{ p.map }}</td>
         <td><button class="btn btn-sm btn-default" (click)="editMode.emit(p)">Edit</button></td>
+        <td><button class="btn btn-sm btn-default" (click)="deleteMode.emit(p)">Delete</button></td>
       </tr>
     </tbody>
   </table>

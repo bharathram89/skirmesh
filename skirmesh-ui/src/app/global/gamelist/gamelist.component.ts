@@ -10,6 +10,7 @@ export class GamelistComponent implements OnInit {
   @Input() gamemodes;
   @Output() addMode = new EventEmitter<any>();
   @Output() editMode = new EventEmitter<any>();
+  @Output() deleteMode = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit(): void {
