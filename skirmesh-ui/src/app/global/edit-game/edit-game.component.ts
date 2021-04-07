@@ -21,7 +21,16 @@ export class EditGameComponent implements OnInit {
       map:''
     });
   }
-
+  setNodes(){
+    // document.getElementById("backdrop").style.display = "block"
+    document.getElementById("exampleModal").style.display = "block"
+    document.getElementById("exampleModal").className += "show"
+  }
+  closeModal(){
+    // document.getElementById("backdrop").style.display = "none"
+    document.getElementById("exampleModal").style.display = "none"
+    document.getElementById("exampleModal").className += document.getElementById("exampleModal").className.replace("show", "")
+  }
   ngOnInit() {
     this.gameModeForm.setValue({
       id: this.gameMode.id || -1,

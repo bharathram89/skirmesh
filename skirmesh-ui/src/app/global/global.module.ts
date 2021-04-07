@@ -14,21 +14,25 @@ import { DynamicTabsDirective } from './tabs/dynamic-tabs.directive';
 import { GamelistComponent } from './gamelist/gamelist.component';
 import { EditGameComponent } from './edit-game/edit-game.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DeviceListComponent } from './device-list/device-list.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [FooterComponent, HeaderComponent, GameConfigComponent, TabsComponent, TabComponent,
     TabsComponent,
     TabComponent,
     DynamicTabsDirective,
     GamelistComponent,
-    EditGameComponent,],
+    EditGameComponent,
+    DeviceListComponent,],
   imports: [
     RouterModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
 
   ],
-  exports: [FooterComponent, HeaderComponent,GameConfigComponent]
+  exports: [FooterComponent, HeaderComponent,GameConfigComponent,DeviceListComponent]
 })
 export class GlobalModule { }
 //AuthService
